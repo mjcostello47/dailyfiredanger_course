@@ -14,9 +14,44 @@ page = agent.get("http://www.rfs.nsw.gov.au/feeds/fdrToban.xml")
 districts = page.search('District')
 
 districts.each do |district|
-	name = district.at('Name')
-	councils = discrict.at('Councils')
-	p name
+	name = district.at('Name').text
+	
+	if district.at('Councils')
+		councils = district.at('Councils').text
+	else
+		councils = ""
+	end
+	
+	if district.at('DangerLevelToday')
+		dangertoday = district.at('DangerLevelToday').text
+	else
+		dantertoday = ""
+	end
+	
+	if district.at('DangerLevelTomorrow')
+		dangertomorrow = district.at('DangerLevelTomorrow').text
+	else
+		dangertomorrow = ""
+	end
+	
+	firebantoday =  district.at('FireBanToday').text
+	
+	firebantomorrow =  district.at('FireBanTomorrow').text
+	
+	record = {
+		date: Date.today,
+		name: name,
+		councils: councils,
+		dangertoday: dangertoday,
+		dangertomorrow: dangertomorrow,
+		firebantoday: firebantoday,
+		firebantomorrow: firebantomorrow}
+
+puts record
+
+	
+	ScraperWiki.save_sqlite([:name, :date], record)
+
 end
 
 #
