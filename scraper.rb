@@ -9,8 +9,16 @@ agent = Mechanize.new
 # # Read in a page
 page = agent.get("http://www.rfs.nsw.gov.au/feeds/fdrToban.xml")
 #
-# # Find somehing on the page using css selectors
-p page.at('district.name')
+# # Find someThing on the page using css selectors
+
+districts = page.search('District')
+
+districts.each do |district|
+	name = district.at('Name')
+	councils = discrict.at('Councils')
+	p name
+end
+
 #
 # # Write out to the sqlite database using scraperwiki library
 # ScraperWiki.save_sqlite(["name"], {"name" => "susan", "occupation" => "software developer"})
